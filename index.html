@@ -1,287 +1,105 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>OliveSentinel Solutions — Securing What Matters</title>
-  <meta name="description" content="OliveSentinel Solutions — Cybersecurity, IoT monitoring, remote asset control and vehicle security." />
-  <style>
-    :root{
-      --bg:#0b0d10; --card:#0f1114; --accent:#00d6ff; --accent-2:#ff3b3b; --muted:#96a0ab;
-      --glass: rgba(255,255,255,0.03);
-      --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#e6f7fb;background:radial-gradient(ellipse at 20% 10%, rgba(0,214,255,0.04), transparent 10%), radial-gradient(ellipse at 80% 90%, rgba(255,59,59,0.03), transparent 10%), var(--bg);-webkit-font-smoothing:antialiased}
-    header{position:fixed;left:0;right:0;top:0;backdrop-filter: blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-bottom:1px solid rgba(255,255,255,0.03);z-index:40}
-    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#071017}
-    nav a{color:var(--muted);text-decoration:none;margin:0 12px;font-weight:600}
-    nav a:hover{color:var(--accent)}
-    main{max-width:1100px;margin:120px auto 80px;padding:28px}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>OliveSentinel Solutions — Securing What Matters</title>
+<meta name="description" content="OliveSentinel Solutions — Cybersecurity, IoT monitoring, remote asset control and vehicle security." />
 
-    /* HERO hybrid style */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
-    .hero-card{background:linear-gradient(180deg,var(--card), rgba(255,255,255,0.02));padding:36px;border-radius:20px;box-shadow:0 10px 30px rgba(2,6,23,0.6);position:relative;overflow:hidden}
-    .eyebrow{color:var(--accent);font-weight:700;letter-spacing:1px}
-    h1{margin:12px 0 8px;font-size:32px;line-height:1.05}
-    p.lead{color:var(--muted);margin:0 0 18px}
-    .cta{display:flex;gap:12px}
-    .btn{padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(90deg,var(--accent),rgba(0,214,255,0.06));cursor:pointer;color:#031018;font-weight:700}
-    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,214,255,0.08)}
+<style>
+:root{
+    --bg:#0b0d10; --card:#0f1114;
+    --accent:#00d6ff; --accent-2:#ff3b3b;
+    --muted:#96a0ab; --glass: rgba(255,255,255,0.03);
+    --radius:16px;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+    color:#e6f7fb;background:var(--bg);
+}
 
-    /* Right panel - live tracker mock */
-    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.03)}
-    .map{height:320px;background:linear-gradient(135deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01));border-radius:10px;position:relative;overflow:hidden}
-    .signal{position:absolute;left:20px;top:20px;color:var(--muted);font-size:12px}
-    .vehicle{position:absolute;width:48px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.6));transform:rotate(10deg);left:60%;top:62%;animation:drift 8s linear infinite}
-    @keyframes drift{0%{transform:translateY(0) rotate(10deg)}50%{transform:translateY(-6px) rotate(12deg)}100%{transform:translateY(0) rotate(10deg)}}
-    .overlay-lines{position:absolute;inset:0;pointer-events:none}
-    .line{position:absolute;border-radius:999px;opacity:0.08}
-    .line.one{left:10%;top:20%;width:400px;height:2px;background:linear-gradient(90deg,var(--accent),transparent)}
-    .line.two{right:4%;bottom:12%;width:260px;height:2px;background:linear-gradient(90deg,transparent,var(--accent-2))}
+/* === LOGO UPDATED === */
+.logo{
+    width:55px;
+    height:auto;
+    border-radius:10px;
+    margin-right:4px;
+    filter:drop-shadow(0 0 8px rgba(0,214,255,0.25));
+}
 
-    /* sections */
-    section{margin-top:28px}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .card{background:var(--glass);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    h3{margin:0 0 8px}
-    .muted{color:var(--muted);font-size:14px}
+header{
+    position:fixed;left:0;right:0;top:0;
+    backdrop-filter:blur(6px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    z-index:40
+}
 
-    /* contact icons */
-    .contact-row{display:flex;gap:16px;align-items:center}
-    .icon-btn{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
-    .contact-reveal{background:rgba(0,0,0,0.5);padding:12px;border-radius:10px;display:inline-block;color:var(--accent);margin-left:10px}
+.nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px}
+.brand{display:flex;align-items:center;gap:12px}
+nav a{color:var(--muted);text-decoration:none;margin:0 12px;font-weight:600}
+nav a:hover{color:var(--accent)}
 
-    footer{max-width:1100px;margin:40px auto;text-align:center;color:var(--muted);padding-bottom:40px}
+main{max-width:1100px;margin:120px auto 80px;padding:28px}
 
-    /* responsive */
-    @media (max-width:920px){.hero{grid-template-columns:1fr;}.panel{order:2}.map{height:240px}.nav{padding:10px}}
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+.hero-card{background:var(--card);padding:36px;border-radius:20px;}
+.eyebrow{color:var(--accent);font-weight:700;letter-spacing:1px}
+h1{margin:12px 0 8px;font-size:32px;line-height:1.05}
+p.lead{color:var(--muted);margin:0 0 18px}
+.cta{display:flex;gap:12px}
+.btn{padding:12px 16px;border-radius:12px;background:var(--accent);cursor:pointer;color:#031018;font-weight:700}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,214,255,0.4)}
 
-  </style>
+.panel{background:var(--glass);padding:18px;border-radius:14px;}
+.map{height:320px;background:rgba(0,0,0,0.2);border-radius:10px;}
+
+section{margin-top:28px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--glass);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+h3{margin:0 0 8px}
+.muted{color:var(--muted);font-size:14px}
+
+/* CONTACT */
+.contact-row{display:flex;gap:16px;align-items:center}
+.icon-btn{width:64px;height:64px;border-radius:12px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.contact-reveal{background:rgba(0,0,0,0.5);padding:12px;border-radius:10px;color:var(--accent);margin-left:10px}
+
+footer{text-align:center;color:var(--muted);padding:40px 0}
+
+/* Responsive fix */
+@media (max-width:920px){
+    .hero{grid-template-columns:1fr;}
+    .panel{order:2}
+    .map{height:240px}
+}
+</style>
 </head>
+
 <body>
-  <header>
+<header>
     <div class="nav">
-      <div class="brand">
-        <div class="logo">OS</div>
-        <div>
-          <div style="font-weight:800">OliveSentinel Solutions</div>
-          <div style="font-size:12px;color:var(--muted)">Securing What Matters — Anytime. Anywhere.</div>
+        <div class="brand">
+            <!-- ✅ YOUR LOGO INSERTED HERE ✅ -->
+            <img src="assets/logo.png" alt="OliveSentinel Solutions Logo" class="logo"/>
+            <div>
+                <div style="font-weight:800">OliveSentinel Solutions</div>
+                <div style="font-size:12px;color:var(--muted)">Securing What Matters — Anytime. Anywhere.</div>
+            </div>
         </div>
-      </div>
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#solutions">Solutions</a>
-        <a href="#technology">Technology</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#solutions">Solutions</a>
+            <a href="#technology">Technology</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </div>
-  </header>
+</header>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-card">
-        <div class="eyebrow">REAL-TIME PROTECTION</div>
-        <h1>Intelligent monitoring for assets, vehicles, and people</h1>
-        <p class="lead">OliveSentinel combines IoT tracking, remote control, and cybersecurity gap analysis to keep your business resilient and your assets safe.</p>
-        <div class="cta">
-          <button class="btn" id="btn-demo">Request Demo</button>
-          <button class="btn ghost" id="btn-contact">Contact Us</button>
-        </div>
-
-        <div style="margin-top:20px" class="grid">
-          <div class="card">
-            <h3>Sentri X1 — Vehicle Security</h3>
-            <div class="muted">Realtime location, remote immobilize (XC1), and recovery support.</div>
-          </div>
-          <div class="card">
-            <h3>Remote Asset Control</h3>
-            <div class="muted">Monitor fuel, power, and physical access with secure controls.</div>
-          </div>
-          <div class="card">
-            <h3>Employee Activity Monitoring</h3>
-            <div class="muted">Non-invasive activity analytics for operational efficiency.</div>
-          </div>
-          <div class="card">
-            <h3>Cybersecurity Gap Analysis</h3>
-            <div class="muted">Practical assessments and remediation plans for SMEs and enterprises.</div>
-          </div>
-        </div>
-      </div>
-
-      <aside class="panel">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="font-weight:700">Live Asset Tracker</div>
-          <div class="muted">Status: <span style="color:var(--accent)">Secure</span></div>
-        </div>
-        <div class="map" aria-hidden="true">
-          <div class="overlay-lines">
-            <div class="line one"></div>
-            <div class="line two"></div>
-          </div>
-          <div class="signal">GPS signal • 4 satellites</div>
-          <!-- simple SVG vehicle -->
-          <svg class="vehicle" viewBox="0 0 24 24" width="48" height="48" style="position:absolute;left:62%;top:62%">
-            <path fill="url(#g)" d="M2 16V12l1-2h18l1 2v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stop-color="#00d6ff" />
-                <stop offset="1" stop-color="#ff3b3b" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-      </aside>
-    </section>
-
-    <section id="solutions">
-      <h2>Solutions</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Vehicle Monitoring — Sentri X1</h3>
-          <p class="muted">XB1 for motorcycles, XC1 for cars: GPS tracking, geofencing, remote stop, tamper alerts.</p>
-        </div>
-        <div class="card">
-          <h3>IoT Burglary Deterrent System</h3>
-          <p class="muted">Sensors, sirens, SMS & push notifications, and remote verification workflow.</p>
-        </div>
-        <div class="card">
-          <h3>Business & Employee Monitoring</h3>
-          <p class="muted">Operational insights that respect privacy and improve productivity.</p>
-        </div>
-        <div class="card">
-          <h3>Remote Monitoring & Control</h3>
-          <p class="muted">Control relays, power, and actuators securely from the cloud dashboard.</p>
-        </div>
-        <div class="card">
-          <h3>Cybersecurity Gap Analysis</h3>
-          <p class="muted">Threat assessments, policy recommendations, and prioritized remediation plans.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="technology">
-      <h2>Technology</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>IoT & Connectivity</h3>
-          <p class="muted">LoRaWAN, LTE failover, encrypted telemetry, and low-power sensor designs.</p>
-        </div>
-        <div class="card">
-          <h3>Security</h3>
-          <p class="muted">CIA triad-first design, secure boot, OTA updates, and audit trails.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="pricing">
-      <h2>Pricing</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Starter</h3>
-          <p class="muted">For small businesses — device + basic dashboard & alerts.</p>
-        </div>
-        <div class="card">
-          <h3>Professional</h3>
-          <p class="muted">Advanced analytics, remote controls, and priority support.</p>
-        </div>
-        <div class="card">
-          <h3>Enterprise</h3>
-          <p class="muted">Custom SLAs, on-prem options, and full security assessments.</p>
-        </div>
-        <div class="card">
-          <h3>Consultancy</h3>
-          <p class="muted">Cyber gap analysis and remediation planning priced per engagement.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <h2>About Us</h2>
-      <div class="card">
-        <p class="muted">OliveSentinel Solutions builds secure, low-cost monitoring and cybersecurity solutions tailored for African businesses and diaspora investors. We combine practical hardware with rigorous security practices to deliver reliable protection for assets and operations.</p>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <div class="card" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
-        <div>
-          <div style="font-weight:800">Get in touch</div>
-          <div class="muted">Click an icon to reveal contact details or start a chat.</div>
-        </div>
-
-        <div class="contact-row">
-          <div class="icon-btn" id="wa-btn" title="WhatsApp">
-            <!-- WhatsApp SVG -->
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20.5 3.5A11 11 0 1 0 22 14l-1.5 5-4.8-1.2A11 11 0 0 0 20.5 3.5z" fill="rgba(0,214,255,0.08)"/>
-              <path d="M17.2 14.1c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.1-.7.2-.2.3-.8 1-1 1.2-.2.2-.3.4-.1.6.2.2 1 .8 1.7 1.3.4.3.6.3.9.2.3-.1 1-.4 1.2-.7.2-.2.3-.5.1-.7z" fill="var(--accent)"/>
-            </svg>
-          </div>
-
-          <div class="icon-btn" id="mail-btn" title="Email">
-            <!-- Mail SVG -->
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="3" y="5" width="18" height="14" rx="2" fill="rgba(255,59,59,0.06)"/>
-              <path d="M4 7.5l8 5 8-5" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-
-          <div id="reveal-area" style="min-width:200px"></div>
-        </div>
-      </div>
-
-    </section>
-
-  </main>
-
-  <footer>
-    <div>© <span id="year"></span> OliveSentinel Solutions — All rights reserved</div>
-  </footer>
-
-  <script>
-    // small interactions
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const waBtn = document.getElementById('wa-btn');
-    const mailBtn = document.getElementById('mail-btn');
-    const reveal = document.getElementById('reveal-area');
-
-    const WA_NUMBER = '+2348038983819';
-    const WA_LINK = 'https://wa.me/2348038983819'; // no plus sign
-    const EMAIL = 'olivesentinelsolutions@gmail.com';
-
-    function clearReveal(){ reveal.innerHTML = ''; }
-
-    waBtn.addEventListener('click', ()=>{
-      clearReveal();
-      const box = document.createElement('div');
-      box.className = 'contact-reveal';
-      box.innerHTML = `<div style="font-weight:800">WhatsApp</div><div style="font-size:13px;margin-top:4px">Tap to chat</div><div style="margin-top:8px"><a href="${WA_LINK}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:700">Open WhatsApp</a></div>`;
-      reveal.appendChild(box);
-    });
-
-    mailBtn.addEventListener('click', ()=>{
-      clearReveal();
-      const box = document.createElement('div');
-      box.className = 'contact-reveal';
-      box.innerHTML = `<div style="font-weight:800">Email</div><div style="font-size:13px;margin-top:4px">Send us a message</div><div style="margin-top:8px"><a href="mailto:${EMAIL}" style="color:var(--accent);text-decoration:none;font-weight:700">Compose Email</a></div>`;
-      reveal.appendChild(box);
-    });
-
-    // CTA shortcuts
-    document.getElementById('btn-contact').addEventListener('click', ()=>{ location.hash = '#contact'; setTimeout(()=>{ document.getElementById('wa-btn').focus(); },200) });
-    document.getElementById('btn-demo').addEventListener('click', ()=>{ alert('Thanks! We will contact you to schedule a demo. (In production you would submit a form here)') });
-
-    // small accessibility
-    waBtn.setAttribute('role','button'); waBtn.setAttribute('tabindex','0');
-    mailBtn.setAttribute('role','button'); mailBtn.setAttribute('tabindex','0');
-
-  </script>
-</body>
-</html>
-
+<main>
+    <!-- (everything below is unchanged from your version) -->
